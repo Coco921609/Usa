@@ -1,0 +1,35 @@
+{
+    "name": "usa",
+    "short_name": "usa",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#161616",
+    "theme_color": "#D4AF37",
+    "description": "Découvrez les trésors naturels des États-Unis. De l'Ouest à l'Est, explorez les parcs nationaux et sites les plus spectaculaires d'Amérique.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+name: usa
+description: "Découvrez les trésors naturels des États-Unis. De l'Ouest à l'Est, explorez les parcs nationaux et sites les plus spectaculaires d'Amérique."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_fonts: ^8.1.0
+  shared_preferences: ^2.5.5
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  image_path: "assets/Usa.png"
+  android: true
+  ios: true
+  web:
+    generate: true
+    background_color: "#161616"
+    theme_color: "#D4AF37"
+  windows:
+    generate: true
+    icon_size: 256
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/Usa.png
