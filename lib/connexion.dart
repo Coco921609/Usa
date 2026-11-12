@@ -1,10 +1,19 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+
 // Importations avec alias pour éviter la collision
 import '../francais/ouest.dart' as fr_ouest;
 import '../francais/est.dart' as fr_est;
 import '../anglais/ouest.dart' as en_ouest;
 import '../anglais/est.dart' as en_est;
+
+/// Palette « veille de route » : nuit bleutée, sable chaud,
+/// ambre du désert pour l'Ouest et vert pin pour l'Est.
+class _Palette {
+  static const ink = Color(0xFF0E1820);
+  static const sand = Color(0xFFF2E6D0);
+  static const canyon = Color(0xFFF2A55A);
+  static const pine = Color(0xFF8BD3B0);
+}
 
 class ConnexionPage extends StatefulWidget {
   const ConnexionPage({super.key});
@@ -13,210 +22,295 @@ class ConnexionPage extends StatefulWidget {
   State<ConnexionPage> createState() => _ConnexionPageState();
 }
 
-class _ConnexionPageState extends State<ConnexionPage> with TickerProviderStateMixin {
+class _ConnexionPageState extends State<ConnexionPage>
+    with SingleTickerProviderStateMixin {
   bool isFrench = true;
+  bool _introStarted = false;
 
-  // Contrôleurs pour les animations
-  late AnimationController _entranceController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  // Une seule séquence d'entrée orchestrée : titre, puis Ouest, route, Est.
+  late final AnimationController _intro;
+  late final Animation<double> _heroFade;
+  late final Animation<Offset> _heroSlide;
+  late final Animation<double> _westReveal;
+  late final Animation<double> _roadReveal;
+  late final Animation<double> _eastReveal;
 
-  // Contrôleur pour le fond qui respire (zoom lent)
-  late AnimationController _breathingController;
-  late Animation<double> _scaleAnimation;
-
-  // Contrôleur pour le slider horizontal (Carousel)
-  late PageController _pageController;
+  static const Map<String, Map<String, String>> _texts = {
+    'FR': {
+      'title': 'Road Trip USA',
+      'subtitle': "Explorez l'horizon",
+      'desc':
+      "Vivez l'aventure américaine au cœur de la nature. Choisissez votre route et partez.",
+      'choose': 'Choisissez votre route',
+      'west_title': 'Ouest américain',
+      'west_sub': 'Canyons, déserts et côte Pacifique',
+      'west_loc': 'Découvrir',
+      'east_title': 'Est américain',
+      'east_sub': 'Forêts, villes historiques et côte Atlantique',
+      'east_loc': 'Découvrir',
+    },
+    'EN': {
+      'title': 'Road Trip USA',
+      'subtitle': 'Explore the horizon',
+      'desc':
+      'Experience the American adventure in the heart of nature. Pick your route and go.',
+      'choose': 'Choose your route',
+      'west_title': 'American West',
+      'west_sub': 'Canyons, deserts and the Pacific coast',
+      'west_loc': 'Discover',
+      'east_title': 'American East',
+      'east_sub': 'Forests, historic cities and the Atlantic coast',
+      'east_loc': 'Discover',
+    },
+  };
 
   @override
   void initState() {
     super.initState();
 
-    // 1. Animation d'entrée (Fade & Slide)
-    _entranceController = AnimationController(
+    _intro = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _entranceController, curve: Curves.easeOut),
-    );
-    _slideAnimation = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
-      CurvedAnimation(parent: _entranceController, curve: Curves.easeOutQuart),
+      duration: const Duration(milliseconds: 1600),
     );
 
-    // 2. Animation de respiration du fond
-    _breathingController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 20),
-    )..repeat(reverse: true);
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
-      CurvedAnimation(parent: _breathingController, curve: Curves.easeInOutSine),
+    _heroFade = CurvedAnimation(
+      parent: _intro,
+      curve: const Interval(0.0, 0.45, curve: Curves.easeOut),
+    );
+    _heroSlide = Tween<Offset>(
+      begin: const Offset(0, 0.05),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _intro,
+        curve: const Interval(0.0, 0.45, curve: Curves.easeOutCubic),
+      ),
     );
 
-    // 3. PageController pour le carousel horizontal
-    _pageController = PageController(viewportFraction: 0.85);
+    _westReveal = CurvedAnimation(
+      parent: _intro,
+      curve: const Interval(0.3, 0.7, curve: Curves.easeOutCubic),
+    );
+    _roadReveal = CurvedAnimation(
+      parent: _intro,
+      curve: const Interval(0.5, 0.85, curve: Curves.easeInOut),
+    );
+    _eastReveal = CurvedAnimation(
+      parent: _intro,
+      curve: const Interval(0.6, 1.0, curve: Curves.easeOutCubic),
+    );
+  }
 
-    _entranceController.forward();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_introStarted) return;
+    _introStarted = true;
+
+    // Respect de l'option « réduire les animations » du système.
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _intro.value = 1;
+    } else {
+      _intro.forward();
+    }
   }
 
   @override
   void dispose() {
-    _entranceController.dispose();
-    _breathingController.dispose();
-    _pageController.dispose();
+    _intro.dispose();
     super.dispose();
   }
 
   String get favorisKey => isFrench ? 'favoris_fr' : 'favoris_en';
 
-  String getRegionFavorisKey(String region) {
-    return '${favorisKey}_$region';
-  }
+  String getRegionFavorisKey(String region) => '${favorisKey}_$region';
 
-  final Map<String, Map<String, String>> texts = {
-    'FR': {
-      'title': 'Road Trip Usa',
-      'subtitle': 'Explorez l\'horizon', // Première lettre en majuscule
-      'desc': 'Vivez l\'aventure Américaine au cœur de la nature. Balayez pour découvrir nos merveilles.',
-      'west_title': 'Ouest Américain',
-      'west_loc': 'Découvrir',
-      'east_title': 'Est Américain',
-      'east_loc': 'Découvrir',
-    },
-    'EN': {
-      'title': 'Road Trip Usa',
-      'subtitle': 'Explore the horizon', // Première lettre en majuscule
-      'desc': 'Experience the American adventure in the heart of nature. Swipe to discover our wonders.',
-      'west_title': 'American West',
-      'west_loc': 'Discover',
-      'east_title': 'American East',
-      'east_loc': 'Discover',
-    }
-  };
+  void _openRegion(String region) {
+    final key = getRegionFavorisKey(region);
+    final isWest = region == 'ouest';
+
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          if (isWest) {
+            return isFrench
+                ? fr_ouest.OuestPage(favorisKey: key, isFrench: isFrench)
+                : en_ouest.OuestPage(favorisKey: key, isFrench: isFrench);
+          }
+          return isFrench
+              ? fr_est.EstPage(favorisKey: key, isFrench: isFrench)
+              : en_est.EstPage(favorisKey: key, isFrench: isFrench);
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final t = texts[isFrench ? 'FR' : 'EN']!;
+    final t = _texts[isFrench ? 'FR' : 'EN']!;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF070709),
+      backgroundColor: _Palette.ink,
       body: Stack(
         children: [
-          // 1. IMAGE DE FOND ANIMÉE
-          Positioned.fill(
-            child: ScaleTransition(
-              scale: _scaleAnimation,
-              child: Image.asset(
-                'assets/images/7.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-
-          // 2. DÉGRADÉ PREMIUM
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    const Color(0xFF070709).withOpacity(0.5),
-                    const Color(0xFF070709).withOpacity(0.8),
-                    const Color(0xFF070709).withOpacity(0.95),
-                  ],
-                  stops: const [0.0, 0.4, 1.0],
+          // 1. IMAGE D'EN-TÊTE qui se fond dans la nuit
+          SizedBox(
+            height: height * 0.55,
+            width: double.infinity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                ShaderMask(
+                  shaderCallback: (rect) => const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white, Colors.white, Colors.transparent],
+                    stops: [0.0, 0.45, 1.0],
+                  ).createShader(rect),
+                  blendMode: BlendMode.dstIn,
+                  child: Image.asset(
+                    'assets/images/7.jpg',
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
+                  ),
                 ),
-              ),
+                // Voile sombre en haut pour la lisibilité du titre
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        _Palette.ink.withOpacity(0.6),
+                        _Palette.ink.withOpacity(0.0),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
-          // 3. CONTENU PRINCIPAL
+          // 2. CONTENU
           SafeArea(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: Column(
-                  children: [
-                    // --- EN-TÊTE ---
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 20.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            t['title']!,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 42,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 2.5,
-                              color: Colors.white,
-                              height: 1.1,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            t['subtitle']!,
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 13,
-                              color: Colors.cyanAccent,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            t['desc']!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 15,
-                              color: Colors.white.withOpacity(0.7),
-                              height: 1.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const Spacer(),
-
-                    // --- CAROUSEL HORIZONTAL ---
-                    SizedBox(
-                      height: 380,
-                      child: PageView(
-                        controller: _pageController,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          _buildHeroCard(
-                            title: t['west_title']!,
-                            btnText: t['west_loc']!,
-                            imagePath: 'assets/images/1.jpg',
-                            region: 'ouest',
-                          ),
-                          _buildHeroCard(
-                            title: t['east_title']!,
-                            btnText: t['east_loc']!,
-                            imagePath: 'assets/images/111.webp',
-                            region: 'est',
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const Spacer(),
-
-                    // --- SÉLECTEUR DE LANGUE ---
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24.0),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Sélecteur de langue
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+                    child: Align(
+                      alignment: Alignment.centerRight,
                       child: _buildLanguageToggle(),
                     ),
-                  ],
-                ),
+                  ),
+
+                  SizedBox(height: height * 0.12),
+
+                  // Hero typographique
+                  FadeTransition(
+                    opacity: _heroFade,
+                    child: SlideTransition(
+                      position: _heroSlide,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              t['title']!,
+                              style: const TextStyle(
+                                fontFamily: 'DMSerifDisplay',
+                                fontSize: 58,
+                                height: 0.98,
+                                letterSpacing: -0.5,
+                                color: _Palette.sand,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              t['subtitle']!,
+                              style: const TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: _Palette.canyon,
+                              ),
+                            ),
+                            const SizedBox(height: 14),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 320),
+                              child: Text(
+                                t['desc']!,
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 14.5,
+                                  height: 1.6,
+                                  color: _Palette.sand.withOpacity(0.7),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: height * 0.07),
+
+                  // Titre de section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      t['choose']!,
+                      style: const TextStyle(
+                        fontFamily: 'DMSerifDisplay',
+                        fontSize: 24,
+                        color: _Palette.sand,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Les deux régions reliées par une route
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _buildRegionCard(
+                          region: 'ouest',
+                          title: t['west_title']!,
+                          subtitle: t['west_sub']!,
+                          btnText: t['west_loc']!,
+                          imagePath: 'assets/images/1.jpg',
+                          accent: _Palette.canyon,
+                          icon: Icons.wb_sunny_outlined,
+                          reveal: _westReveal,
+                        ),
+                        _RoadConnector(progress: _roadReveal),
+                        _buildRegionCard(
+                          region: 'est',
+                          title: t['east_title']!,
+                          subtitle: t['east_sub']!,
+                          btnText: t['east_loc']!,
+                          imagePath: 'assets/images/111.webp',
+                          accent: _Palette.pine,
+                          icon: Icons.park_outlined,
+                          reveal: _eastReveal,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -225,118 +319,186 @@ class _ConnexionPageState extends State<ConnexionPage> with TickerProviderStateM
     );
   }
 
-  // --- WIDGET : GRANDE CARTE HERO ---
-  Widget _buildHeroCard({required String title, required String btnText, required String imagePath, required String region}) {
-    String uniqueKey = getRegionFavorisKey(region);
+  // --- CARTE DE RÉGION ---
+  Widget _buildRegionCard({
+    required String region,
+    required String title,
+    required String subtitle,
+    required String btnText,
+    required String imagePath,
+    required Color accent,
+    required IconData icon,
+    required Animation<double> reveal,
+  }) {
+    return FadeTransition(
+      opacity: reveal,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, 0.08),
+          end: Offset.zero,
+        ).animate(reveal),
+        child: Semantics(
+          button: true,
+          label: '$title. $subtitle',
+          child: Container(
+            height: 240,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.45),
+                  blurRadius: 30,
+                  offset: const Offset(0, 14),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _openRegion(region),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset(imagePath, fit: BoxFit.cover),
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              if (region == 'ouest') {
-                return isFrench
-                    ? fr_ouest.OuestPage(favorisKey: uniqueKey, isFrench: isFrench)
-                    : en_ouest.OuestPage(favorisKey: uniqueKey, isFrench: isFrench);
-              } else {
-                return isFrench
-                    ? fr_est.EstPage(favorisKey: uniqueKey, isFrench: isFrench)
-                    : en_est.EstPage(favorisKey: uniqueKey, isFrench: isFrench);
-              }
-            },
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(36.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            )
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(36.0),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.2),
-                        Colors.black.withOpacity(0.9),
-                      ],
-                      stops: const [0.3, 0.6, 1.0],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 30,
-                left: 24,
-                right: 24,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                btnText,
-                                style: const TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Icon(Icons.arrow_forward_rounded, color: Colors.cyanAccent, size: 18),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              _Palette.ink.withOpacity(0.1),
+                              _Palette.ink.withOpacity(0.92),
                             ],
+                            stops: const [0.25, 1.0],
                           ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      // Pastille d'icône, couleur de la région
+                      Positioned(
+                        top: 18,
+                        left: 18,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _Palette.ink.withOpacity(0.5),
+                            border: Border.all(color: accent.withOpacity(0.7)),
+                          ),
+                          child: Icon(icon, color: accent, size: 20),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(22),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                fontFamily: 'DMSerifDisplay',
+                                fontSize: 30,
+                                height: 1.05,
+                                color: _Palette.sand,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              subtitle,
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13.5,
+                                height: 1.4,
+                                color: _Palette.sand.withOpacity(0.7),
+                              ),
+                            ),
+                            const SizedBox(height: 18),
+                            Row(
+                              children: [
+                                Text(
+                                  btnText,
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: accent,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  color: accent,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- SÉLECTEUR DE LANGUE ---
+  Widget _buildLanguageToggle() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildLanguageTab('FR', 'Français'),
+        const SizedBox(width: 22),
+        _buildLanguageTab('EN', 'English'),
+      ],
+    );
+  }
+
+  Widget _buildLanguageTab(String code, String label) {
+    final isActive = (code == 'FR') == isFrench;
+
+    return Semantics(
+      button: true,
+      selected: isActive,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () => setState(() => isFrench = code == 'FR'),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 250),
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 13,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                  color: isActive
+                      ? _Palette.sand
+                      : _Palette.sand.withOpacity(0.45),
+                ),
+                child: Text(label),
+              ),
+              const SizedBox(height: 6),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOut,
+                height: 2,
+                width: isActive ? 24 : 0,
+                decoration: BoxDecoration(
+                  color: _Palette.canyon,
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
             ],
@@ -345,74 +507,61 @@ class _ConnexionPageState extends State<ConnexionPage> with TickerProviderStateM
       ),
     );
   }
+}
 
-  // --- WIDGET : CAPSULE DE LANGUE ---
-  Widget _buildLanguageToggle() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(40),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-        child: Container(
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(40),
-            border: Border.all(color: Colors.white.withOpacity(0.15), width: 1.5),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildLanguageTab('FR', 'Français', '🇫🇷'),
-              const SizedBox(width: 6),
-              _buildLanguageTab('EN', 'English', '🇺🇸'),
-            ],
-          ),
+// --- TRACÉ DE ROUTE ENTRE LES DEUX CARTES ---
+class _RoadConnector extends StatelessWidget {
+  const _RoadConnector({required this.progress});
+
+  final Animation<double> progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 64,
+      width: double.infinity,
+      child: AnimatedBuilder(
+        animation: progress,
+        builder: (context, _) => CustomPaint(
+          painter: _RoadPainter(progress.value),
         ),
       ),
     );
   }
+}
 
-  // --- WIDGET : ONGLET INDIVIDUEL DE LANGUE ---
-  Widget _buildLanguageTab(String code, String label, String flagEmoji) {
-    bool isActive = (isFrench && code == 'FR') || (!isFrench && code == 'EN');
+class _RoadPainter extends CustomPainter {
+  _RoadPainter(this.progress);
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isFrench = (code == 'FR');
-        });
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        decoration: BoxDecoration(
-          color: isActive ? Colors.cyan.withOpacity(0.25) : Colors.transparent,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isActive ? Colors.cyanAccent.withOpacity(0.4) : Colors.transparent,
-            width: 1,
-          ),
-          boxShadow: isActive
-              ? [BoxShadow(color: Colors.cyanAccent.withOpacity(0.15), blurRadius: 12, spreadRadius: 1)]
-              : [],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(flagEmoji, style: const TextStyle(fontSize: 18)),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: isActive ? Colors.white : Colors.white60,
-                fontSize: 14,
-                fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
+  final double progress;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (progress <= 0) return;
+
+    final x = size.width / 2;
+    final end = size.height * progress;
+
+    final dash = Paint()
+      ..color = _Palette.sand.withOpacity(0.35)
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+
+    for (double y = 0; y < end; y += 12) {
+      final yEnd = y + 6 > end ? end : y + 6;
+      canvas.drawLine(Offset(x, y), Offset(x, yEnd), dash);
+    }
+
+    // Position du véhicule sur la route
+    canvas.drawCircle(
+      Offset(x, end),
+      4,
+      Paint()..color = _Palette.canyon,
     );
+  }
+
+  @override
+  bool shouldRepaint(covariant _RoadPainter oldDelegate) {
+    return oldDelegate.progress != progress;
   }
 }

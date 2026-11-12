@@ -1,139 +1,101 @@
 import 'package:flutter/material.dart';
-
-const Color bleuMer = Colors.cyanAccent;
+import 'package:usa/est_detail_base.dart';
 
 class GreatSmokyMountainsPage extends StatelessWidget {
   final String title;
+  final bool isFrench;
 
-  const GreatSmokyMountainsPage({super.key, required this.title});
+  const GreatSmokyMountainsPage({
+    super.key,
+    required this.title,
+    this.isFrench = true,
+  });
+
+  static const _accent = Color(0xFF8BD3B0);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF121418),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Bouton retour + Titre
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: const TextStyle(fontFamily: 'Montserrat', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    final fr = isFrench;
 
-              // Photo principale
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset('assets/images/114.jpg', fit: BoxFit.fitWidth, width: double.infinity),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 20.0),
-                      child: Text(
-                        "Le saviez-vous : La biodiversité exceptionnelle des Smoky Mountains trouve un écho fascinant dans la Forêt de Daintree, en Australie 🇦🇺.",
-                        style: TextStyle(color: bleuMer, fontSize: 15, fontStyle: FontStyle.italic),
-                      ),
-                    ),
-
-                    const Text("⛰️ Great Smoky Mountains 🇺🇸", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "Crête après crête de forêt chevauche la frontière entre la Caroline du Nord et le Tennessee. Mondialement reconnu pour sa diversité floristique et faunique, sa beauté antique et ses vestiges de la culture des Appalaches, c'est le parc national le plus visité d'Amérique.",
-                      style: TextStyle(color: Colors.white70, fontSize: 15, height: 1.5),
-                    ),
-
-                    const SizedBox(height: 25),
-                    _buildSectionTitle('📸 Aperçu du lieu'),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 220,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          _buildGalleryImage('assets/images/112.jpg'),
-                          _buildGalleryImage('assets/images/114.webp'),
-                          _buildGalleryImage('assets/images/115.webp'),
-                          _buildGalleryImage('assets/images/116.webp'),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-                    _buildSectionTitle("🌅 Horaires recommandés (Lumière & Calme)"),
-                    const SizedBox(height: 10),
-                    _buildBulletPoint("🌅 Lever / Coucher du soleil : Clingmans Dome et Newfound Gap offrent des panoramas inoubliables."),
-                    _buildBulletPoint("👥 Évitement : Arrivez très tôt le matin (avant 8h) ou privilégiez les sentiers secondaires pour éviter la foule de Cades Cove."),
-
-                    const SizedBox(height: 25),
-                    _buildSectionTitle("🗓️ Saisons et Conseils"),
-                    const SizedBox(height: 10),
-                    _buildBulletPoint("✅ Saison recommandée : Automne (octobre) pour les couleurs flamboyantes ou printemps pour la floraison."),
-                    _buildBulletPoint("❌ Période à éviter : Les week-ends d'octobre (très forte affluence) et les mois d'hiver rigoureux pour les routes en altitude."),
-
-                    const SizedBox(height: 25),
-                    _buildSectionTitle("🎒 Conseils Pratiques"),
-                    const SizedBox(height: 10),
-                    _buildBulletPoint("🌤️ Vérifiez toujours la météo avant de partir."),
-                    _buildBulletPoint("💧 Prévoyez d'importantes réserves d'eau."),
-                    _buildBulletPoint("📸 N'oubliez pas votre appareil photo !"),
-                    _buildBulletPoint("⚠️ Sécurité : Soyez attentifs aux ours noirs lors de vos randonnées."),
-                    _buildBulletPoint("🚗 Logistique : Certaines routes peuvent fermer sans préavis en hiver."),
-
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Attention : les tarifs d'accès (comme le parking tag) et les conditions de visite peuvent évoluer. Vérifiez les mises à jour avant votre départ.",
-                      style: TextStyle(color: Colors.redAccent, fontSize: 12, fontStyle: FontStyle.italic),
-                    ),
-                    const SizedBox(height: 40),
-                  ],
-                ),
-              ),
-            ],
+    return DetailPage(
+      title: title,
+      flags: '🇺🇸',
+      heroImage: 'assets/images/114.jpg',
+      accent: _accent,
+      isFrench: fr,
+      children: [
+        const SizedBox(height: 8),
+        DetailLead(
+          accent: _accent,
+          text: tr(
+            fr,
+            "Le saviez-vous : La biodiversité exceptionnelle des Smoky Mountains trouve un écho fascinant dans la Forêt de Daintree, en Australie 🇦🇺.",
+            "Did you know: The exceptional biodiversity of the Smoky Mountains finds a fascinating echo in the Daintree Rainforest, Australia 🇦🇺.",
           ),
         ),
-      ),
+        DetailIntro(
+          text: tr(
+            fr,
+            "Crête après crête de forêt chevauche la frontière entre la Caroline du Nord et le Tennessee. Mondialement reconnu pour sa diversité floristique et faunique, sa beauté antique et ses vestiges de la culture des Appalaches, c'est le parc national le plus visité d'Amérique.",
+            "Ridge upon ridge of forest straddles the border between North Carolina and Tennessee. World-renowned for its diversity of plant and animal life, the beauty of its ancient mountains, and the remnants of Southern Appalachian mountain culture, it is America's most visited national park.",
+          ),
+        ),
+
+        DetailSectionTitle(
+          text: tr(fr, '📸 Aperçu du lieu', '📸 Location Overview'),
+        ),
+        DetailGallery(
+          accent: _accent,
+          images: const [
+            'assets/images/112.jpg',
+            'assets/images/114.webp',
+            'assets/images/115.webp',
+            'assets/images/116.webp',
+          ],
+        ),
+
+        DetailSectionTitle(
+          text: tr(fr, '🌅 Horaires recommandés', '🌅 Recommended Times'),
+        ),
+        DetailTipList(
+          accent: _accent,
+          tips: [
+            DetailTip('🌅', tr(fr, "Lever / coucher du soleil : Clingmans Dome et Newfound Gap offrent des panoramas inoubliables.", "Sunrise / sunset: Clingmans Dome and Newfound Gap offer unforgettable panoramas.")),
+            DetailTip('👥', tr(fr, "Éviter la foule : arrivez très tôt le matin (avant 8 h) ou privilégiez les sentiers secondaires pour éviter la foule de Cades Cove.", "Avoid crowds: arrive very early in the morning (before 8 AM) or choose secondary trails to avoid the Cades Cove rush.")),
+          ],
+        ),
+
+        DetailSectionTitle(
+          text: tr(fr, '🗓️ Saisons', '🗓️ Seasons'),
+        ),
+        DetailSeasons(
+          goodLabel: tr(fr, 'Recommandé', 'Recommended'),
+          goodText: tr(fr, "Automne (octobre) pour les couleurs flamboyantes, ou printemps pour la floraison.", "Autumn (October) for vibrant colors, or spring for wildflowers."),
+          badLabel: tr(fr, 'À éviter', 'Avoid'),
+          badText: tr(fr, "Les week-ends d'octobre (très forte affluence) et les mois d'hiver rigoureux pour les routes en altitude.", "October weekends (very high traffic) and harsh winter months for high-altitude roads."),
+        ),
+
+        DetailSectionTitle(text: tr(fr, '🎒 Conseils pratiques', '🎒 Practical Tips')),
+        DetailTipList(
+          accent: _accent,
+          tips: [
+            DetailTip('🌤️', tr(fr, "Vérifiez toujours la météo avant de partir.", "Always check the weather before heading out.")),
+            DetailTip('💧', tr(fr, "Prévoyez d'importantes réserves d'eau.", "Bring plenty of water.")),
+            DetailTip('📸', tr(fr, "N'oubliez pas votre appareil photo !", "Don't forget your camera!")),
+            DetailTip('⚠️', tr(fr, "Sécurité : soyez attentifs aux ours noirs lors de vos randonnées.", "Safety: be aware of black bears during your hikes.")),
+            DetailTip('🚗', tr(fr, "Logistique : certaines routes peuvent fermer sans préavis en hiver.", "Logistics: some roads may close without notice in winter.")),
+          ],
+        ),
+
+        DetailNotice(
+          text: tr(
+            fr,
+            "Attention : les tarifs d'accès (comme le parking tag) et les conditions de visite peuvent évoluer. Vérifiez les mises à jour avant votre départ.",
+            "Attention: Access fees (such as the parking tag) and visitation conditions may change. Check for updates before your trip.",
+          ),
+        ),
+        const SizedBox(height: 40),
+      ],
     );
-  }
-
-  Widget _buildGalleryImage(String path) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 15.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Image.asset(path, width: 280, height: 220, fit: BoxFit.cover),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: bleuMer));
-  }
-
-  Widget _buildBulletPoint(String text) {
-    return Padding(padding: const EdgeInsets.only(bottom: 8.0), child: Text("• $text", style: const TextStyle(color: Colors.white70, fontSize: 15)));
   }
 }
