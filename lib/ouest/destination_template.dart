@@ -69,7 +69,7 @@ class DestinationPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            pinned: true,
+            pinned: false,
             expandedHeight: expanded,
             backgroundColor: kBg,
             surfaceTintColor: Colors.transparent,
