@@ -38,20 +38,38 @@ L’application regroupe **13 destinations à l’Ouest** et **4 destinations à
 
 <p align="center">
   <strong>20 CAPTURES · FORMAT MOBILE · 2 ITINÉRAIRES</strong><br>
-  <em>De l’écran d’accueil aux pages consacrées aux parcs et sites naturels.</em>
+  <em>Découvrez séparément les écrans de l’Ouest et de l’Est américains.</em>
 </p>
 
 <p align="center"><em>Captures réalisées depuis les écrans Flutter · 430 × 932 px</em></p>
 
+### 🏜️ Ouest américain
+
+<p align="center"><em>De l’écran de sélection aux grands parcs et paysages de l’Ouest.</em></p>
+
 <table>
-<tr><td align="center"><strong>01 — Accueil</strong><br><a href="docs/screenshots/01-accueil.png"><img src="docs/screenshots/01-accueil.png" alt="01 — Accueil" width="170"></a></td><td align="center"><strong>02 — Ouest américain</strong><br><a href="docs/screenshots/02-ouest-americain.png"><img src="docs/screenshots/02-ouest-americain.png" alt="02 — Ouest américain" width="170"></a></td><td align="center"><strong>03 — Est américain</strong><br><a href="docs/screenshots/03-est-americain.png"><img src="docs/screenshots/03-est-americain.png" alt="03 — Est américain" width="170"></a></td></tr>
-<tr><td align="center"><strong>04 — Grand Canyon</strong><br><a href="docs/screenshots/04-grand-canyon.png"><img src="docs/screenshots/04-grand-canyon.png" alt="04 — Grand Canyon" width="170"></a></td><td align="center"><strong>05 — Monument Valley</strong><br><a href="docs/screenshots/05-monument-valley.png"><img src="docs/screenshots/05-monument-valley.png" alt="05 — Monument Valley" width="170"></a></td><td align="center"><strong>06 — Yellowstone</strong><br><a href="docs/screenshots/06-yellowstone.png"><img src="docs/screenshots/06-yellowstone.png" alt="06 — Yellowstone" width="170"></a></td></tr>
-<tr><td align="center"><strong>07 — Death Valley</strong><br><a href="docs/screenshots/07-death-valley.png"><img src="docs/screenshots/07-death-valley.png" alt="07 — Death Valley" width="170"></a></td><td align="center"><strong>08 — Antelope Canyon</strong><br><a href="docs/screenshots/08-antelope-canyon.png"><img src="docs/screenshots/08-antelope-canyon.png" alt="08 — Antelope Canyon" width="170"></a></td><td align="center"><strong>09 — Canyonlands</strong><br><a href="docs/screenshots/09-canyonlands.png"><img src="docs/screenshots/09-canyonlands.png" alt="09 — Canyonlands" width="170"></a></td></tr>
-<tr><td align="center"><strong>10 — Bryce Canyon</strong><br><a href="docs/screenshots/10-bryce-canyon.png"><img src="docs/screenshots/10-bryce-canyon.png" alt="10 — Bryce Canyon" width="170"></a></td><td align="center"><strong>11 — Zion</strong><br><a href="docs/screenshots/11-zion.png"><img src="docs/screenshots/11-zion.png" alt="11 — Zion" width="170"></a></td><td align="center"><strong>12 — Lac Powell</strong><br><a href="docs/screenshots/12-lac-powell.png"><img src="docs/screenshots/12-lac-powell.png" alt="12 — Lac Powell" width="170"></a></td></tr>
-<tr><td align="center"><strong>13 — Vague pétrifiée</strong><br><a href="docs/screenshots/13-vague-petrifiee.png"><img src="docs/screenshots/13-vague-petrifiee.png" alt="13 — Vague pétrifiée" width="170"></a></td><td align="center"><strong>14 — Dunes peintes</strong><br><a href="docs/screenshots/14-dunes-peintes.png"><img src="docs/screenshots/14-dunes-peintes.png" alt="14 — Dunes peintes" width="170"></a></td><td align="center"><strong>15 — Lac Mono</strong><br><a href="docs/screenshots/15-lac-mono.png"><img src="docs/screenshots/15-lac-mono.png" alt="15 — Lac Mono" width="170"></a></td></tr>
-<tr><td align="center"><strong>16 — Fly Ranch Geyser</strong><br><a href="docs/screenshots/16-fly-ranch-geyser.png"><img src="docs/screenshots/16-fly-ranch-geyser.png" alt="16 — Fly Ranch Geyser" width="170"></a></td><td align="center"><strong>17 — Chutes du Niagara</strong><br><a href="docs/screenshots/17-chutes-niagara.png"><img src="docs/screenshots/17-chutes-niagara.png" alt="17 — Chutes du Niagara" width="170"></a></td><td align="center"><strong>18 — Great Smoky Mountains</strong><br><a href="docs/screenshots/18-great-smoky-mountains.png"><img src="docs/screenshots/18-great-smoky-mountains.png" alt="18 — Great Smoky Mountains" width="170"></a></td></tr>
+<tr><td align="center"><strong>02 — Ouest américain</strong><br><a href="docs/screenshots/02-ouest-americain.png"><img src="docs/screenshots/02-ouest-americain.png" alt="02 — Ouest américain" width="170"></a></td><td align="center"><strong>04 — Grand Canyon</strong><br><a href="docs/screenshots/04-grand-canyon.png"><img src="docs/screenshots/04-grand-canyon.png" alt="04 — Grand Canyon" width="170"></a></td><td align="center"><strong>05 — Monument Valley</strong><br><a href="docs/screenshots/05-monument-valley.png"><img src="docs/screenshots/05-monument-valley.png" alt="05 — Monument Valley" width="170"></a></td></tr>
+<tr><td align="center"><strong>06 — Yellowstone</strong><br><a href="docs/screenshots/06-yellowstone.png"><img src="docs/screenshots/06-yellowstone.png" alt="06 — Yellowstone" width="170"></a></td><td align="center"><strong>07 — Death Valley</strong><br><a href="docs/screenshots/07-death-valley.png"><img src="docs/screenshots/07-death-valley.png" alt="07 — Death Valley" width="170"></a></td><td align="center"><strong>08 — Antelope Canyon</strong><br><a href="docs/screenshots/08-antelope-canyon.png"><img src="docs/screenshots/08-antelope-canyon.png" alt="08 — Antelope Canyon" width="170"></a></td></tr>
+<tr><td align="center"><strong>09 — Canyonlands</strong><br><a href="docs/screenshots/09-canyonlands.png"><img src="docs/screenshots/09-canyonlands.png" alt="09 — Canyonlands" width="170"></a></td><td align="center"><strong>10 — Bryce Canyon</strong><br><a href="docs/screenshots/10-bryce-canyon.png"><img src="docs/screenshots/10-bryce-canyon.png" alt="10 — Bryce Canyon" width="170"></a></td><td align="center"><strong>11 — Zion</strong><br><a href="docs/screenshots/11-zion.png"><img src="docs/screenshots/11-zion.png" alt="11 — Zion" width="170"></a></td></tr>
+<tr><td align="center"><strong>12 — Lac Powell</strong><br><a href="docs/screenshots/12-lac-powell.png"><img src="docs/screenshots/12-lac-powell.png" alt="12 — Lac Powell" width="170"></a></td><td align="center"><strong>13 — Vague pétrifiée</strong><br><a href="docs/screenshots/13-vague-petrifiee.png"><img src="docs/screenshots/13-vague-petrifiee.png" alt="13 — Vague pétrifiée" width="170"></a></td><td align="center"><strong>14 — Dunes peintes</strong><br><a href="docs/screenshots/14-dunes-peintes.png"><img src="docs/screenshots/14-dunes-peintes.png" alt="14 — Dunes peintes" width="170"></a></td></tr>
+<tr><td align="center"><strong>15 — Lac Mono</strong><br><a href="docs/screenshots/15-lac-mono.png"><img src="docs/screenshots/15-lac-mono.png" alt="15 — Lac Mono" width="170"></a></td><td align="center"><strong>16 — Fly Ranch Geyser</strong><br><a href="docs/screenshots/16-fly-ranch-geyser.png"><img src="docs/screenshots/16-fly-ranch-geyser.png" alt="16 — Fly Ranch Geyser" width="170"></a></td><td></td></tr>
+</table>
+
+### 🌲 Est américain
+
+<p align="center"><em>Les forêts, montagnes et grands espaces de l’Est.</em></p>
+
+<table>
+<tr><td align="center"><strong>03 — Est américain</strong><br><a href="docs/screenshots/03-est-americain.png"><img src="docs/screenshots/03-est-americain.png" alt="03 — Est américain" width="170"></a></td><td align="center"><strong>17 — Chutes du Niagara</strong><br><a href="docs/screenshots/17-chutes-niagara.png"><img src="docs/screenshots/17-chutes-niagara.png" alt="17 — Chutes du Niagara" width="170"></a></td><td align="center"><strong>18 — Great Smoky Mountains</strong><br><a href="docs/screenshots/18-great-smoky-mountains.png"><img src="docs/screenshots/18-great-smoky-mountains.png" alt="18 — Great Smoky Mountains" width="170"></a></td></tr>
 <tr><td align="center"><strong>19 — Shenandoah</strong><br><a href="docs/screenshots/19-shenandoah.png"><img src="docs/screenshots/19-shenandoah.png" alt="19 — Shenandoah" width="170"></a></td><td align="center"><strong>20 — Voyageurs National Park</strong><br><a href="docs/screenshots/20-voyageurs-national-park.png"><img src="docs/screenshots/20-voyageurs-national-park.png" alt="20 — Voyageurs National Park" width="170"></a></td><td></td></tr>
 </table>
+
+### 🏠 Écran d’accueil
+
+<p align="center">
+  <a href="docs/screenshots/01-accueil.png"><img src="docs/screenshots/01-accueil.png" alt="01 — Accueil" width="170"></a><br>
+  <strong>01 — Accueil</strong>
+</p>
 
 <sub>Cliquez sur une image pour consulter la capture originale. Chaque vignette correspond à un écran distinct de l’application.</sub>
 
