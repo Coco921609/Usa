@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../lib/connexion.dart';
-import '../lib/francais/ouest.dart' as fr_west;
-import '../lib/francais/est.dart' as fr_east;
-import '../lib/ouest/destinations_catalog.dart';
+import 'package:usa/connexion.dart';
+import 'package:usa/francais/ouest.dart' as fr_west;
+import 'package:usa/francais/est.dart' as fr_east;
+import 'package:usa/ouest/destinations_catalog.dart';
 import '../lib/est/Les Chutes du Niagara.dart';
 import '../lib/est/Great Smoky Mountains.dart';
 import '../lib/est/Parc de Shenandoah.dart';
