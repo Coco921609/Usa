@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 // Importations avec alias pour éviter la collision
-import '../francais/ouest.dart' as fr_ouest;
-import '../francais/est.dart' as fr_est;
-import '../anglais/ouest.dart' as en_ouest;
-import '../anglais/est.dart' as en_est;
+import 'package:usa/francais/ouest.dart' as fr_ouest;
+import 'package:usa/francais/est.dart' as fr_est;
+import 'package:usa/anglais/ouest.dart' as en_ouest;
+import 'package:usa/anglais/est.dart' as en_est;
 
 /// Palette « veille de route » : nuit bleutée, sable chaud,
 /// ambre du désert pour l'Ouest et vert pin pour l'Est.
