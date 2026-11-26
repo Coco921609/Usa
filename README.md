@@ -135,3 +135,47 @@ flutter build web --base-href "/Usa/"
   <strong>ROAD TRIP USA</strong><br>
   <em>Choisissez votre route. Explorez l’horizon.</em>
 </p>
+
+
+## ✦ Ouvrir ce projet Flutter dans Android Studio
+
+### 1. Cloner le dépôt et entrer dans le dossier
+
+```bash
+git clone https://github.com/Coco921609/Usa.git
+cd Usa
+```
+
+### 2. Vérifier Flutter et installer les dépendances
+
+Exécutez ces commandes à la racine du projet, dans le dossier qui contient `pubspec.yaml` :
+
+```bash
+flutter doctor
+flutter pub get
+```
+
+### 3. Ouvrir le projet dans Android Studio
+
+**Windows (PowerShell), macOS ou Linux** — si la commande `studio` est disponible dans le PATH :
+
+```bash
+studio .
+```
+
+Sur macOS, vous pouvez aussi utiliser :
+
+```bash
+open -a "Android Studio" .
+```
+
+Si `studio` n’est pas reconnu, ouvrez Android Studio manuellement, cliquez sur **Open**, puis sélectionnez le dossier `Usa`.
+
+### 4. Démarrer l’application
+
+Démarrez un émulateur Android ou connectez un téléphone avec le débogage USB activé, puis lancez :
+
+```bash
+flutter devices
+flutter run
+```
