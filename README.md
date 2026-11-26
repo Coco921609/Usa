@@ -137,45 +137,111 @@ flutter build web --base-href "/Usa/"
 </p>
 
 
-## ✦ Ouvrir ce projet Flutter dans Android Studio
 
-### 1. Cloner le dépôt et entrer dans le dossier
+## ✦ Ouvrir ce projet Flutter dans Android Studio — Windows, macOS et Linux
+
+Ce guide vous accompagne pour télécharger le code source de **Road Trip USA**, configurer Flutter et lancer le projet depuis Android Studio.
+
+### 1. Télécharger le code source
+
+Ouvrez un terminal (PowerShell sous Windows, Terminal sous macOS ou Linux) :
 
 ```bash
 git clone https://github.com/Coco921609/Usa.git
 cd Usa
 ```
 
-### 2. Vérifier Flutter et installer les dépendances
+Vous pouvez aussi télécharger le dépôt avec **Code → Download ZIP** sur GitHub, puis extraire l’archive.
 
-Exécutez ces commandes à la racine du projet, dans le dossier qui contient `pubspec.yaml` :
+### 2. Installer les outils nécessaires
 
-```bash
+Installez les outils suivants :
+
+- **Flutter SDK :** [Guide officiel d’installation](https://docs.flutter.dev/get-started/install)
+- **Android Studio :** [Télécharger Android Studio](https://developer.android.com/studio)
+- **Git :** [Télécharger Git](https://git-scm.com/downloads)
+
+Dans Android Studio, ouvrez **Settings / Preferences → Plugins**, recherchez **Flutter** et installez-le. Le plugin Dart sera également proposé.
+
+### 3. Windows — installation et ouverture
+
+1. Installez Flutter pour Windows et ajoutez le dossier `flutter/bin` à la variable d’environnement `Path`.
+2. Installez Git et Android Studio.
+3. Ouvrez PowerShell et vérifiez votre installation :
+
+```powershell
 flutter doctor
+```
+
+4. Dans Android Studio, cliquez sur **Open**, puis sélectionnez le dossier `Usa`, celui qui contient le fichier `pubspec.yaml`.
+5. Dans le terminal intégré d’Android Studio, exécutez :
+
+```bash
 flutter pub get
-```
-
-### 3. Ouvrir le projet dans Android Studio
-
-**Windows (PowerShell), macOS ou Linux** — si la commande `studio` est disponible dans le PATH :
-
-```bash
-studio .
-```
-
-Sur macOS, vous pouvez aussi utiliser :
-
-```bash
-open -a "Android Studio" .
-```
-
-Si `studio` n’est pas reconnu, ouvrez Android Studio manuellement, cliquez sur **Open**, puis sélectionnez le dossier `Usa`.
-
-### 4. Démarrer l’application
-
-Démarrez un émulateur Android ou connectez un téléphone avec le débogage USB activé, puis lancez :
-
-```bash
 flutter devices
 flutter run
 ```
+
+### 4. macOS — installation et ouverture
+
+1. Installez Flutter pour macOS, Git et Android Studio.
+2. Pour développer et lancer la version iOS, installez **Xcode** depuis le Mac App Store. Puis configurez les outils Apple :
+
+```bash
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -runFirstLaunch
+flutter doctor
+```
+
+3. Depuis le terminal, placez-vous dans le dossier `Usa`, puis ouvrez Android Studio :
+
+```bash
+cd Usa
+open -a "Android Studio" .
+```
+
+4. Dans le terminal intégré, installez les dépendances et lancez le projet :
+
+```bash
+flutter pub get
+flutter devices
+flutter run
+```
+
+Pour iOS, sélectionnez un simulateur iPhone ou un iPhone connecté dans Android Studio ou Xcode.
+
+### 5. Linux — installation et ouverture
+
+1. Installez Flutter pour votre distribution Linux, Git et les dépendances système indiquées dans le [guide Flutter pour Linux](https://docs.flutter.dev/get-started/install/linux).
+2. Installez Android Studio et configurez le SDK Android depuis **More Actions → SDK Manager**.
+3. Vérifiez l’installation :
+
+```bash
+flutter doctor
+```
+
+4. Dans le terminal, ouvrez le dossier du projet dans Android Studio :
+
+```bash
+cd Usa
+studio .
+```
+
+5. Dans le terminal intégré d’Android Studio, exécutez :
+
+```bash
+flutter pub get
+flutter devices
+flutter run
+```
+
+Si `studio .` n’est pas reconnu, ouvrez Android Studio manuellement avec **Open**, puis sélectionnez le dossier `Usa`.
+
+**Important pour iOS :** la compilation et l’exécution iOS nécessitent un Mac équipé de Xcode. Elles ne sont pas possibles directement depuis Windows ou Linux.
+
+### 6. Télécharger ou découvrir Road Trip USA
+
+- **Android (Google Play) :** [Télécharger Road Trip USA](https://play.google.com/store/apps/details?id=com.stats.usa)
+- **iOS / Web :** [Ouvrir Road Trip USA](https://coco921609.github.io/Usa/)
+- **Code source :** [Coco921609/Usa sur GitHub](https://github.com/Coco921609/Usa)
+
